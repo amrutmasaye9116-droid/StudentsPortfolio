@@ -1,0 +1,131 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background: #f8f9fa;
+}
+
+.navbar-brand {
+  font-size: 28px;
+  color: #0d6efd;
+}
+
+.nav-link {
+  margin-left: 15px;
+}
+
+.hero {
+  padding: 120px 0 80px;
+}
+.hero h1 {
+  font-size: 45px;
+  font-weight: 600;
+  color: #0d6efd;
+}
+
+.hero p {
+  margin: 20px 0;
+  color: #555;
+  font-size: 18px;
+}
+/* Features Section */
+
+.features {
+  background: #ffffff;
+}
+
+.features h2 {
+  color: #0d6efd;
+  font-weight: 600;
+}
+
+.features p {
+  color: #666;
+}
+
+.feature-card {
+  border: none;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  transition: 0.3s;
+  margin-bottom: 20px;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+}
+
+.feature-card h4 {
+  font-size: 40px;
+}
+
+.feature-card h5 {
+  margin-top: 15px;
+  font-weight: 600;
+}
+
+.register-box {
+  background: white;
+  padding: 35px;
+  margin-top: 50px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.register-box h2 {
+  text-align: center;
+  color: #0d6efd;
+  margin-bottom: 10px;
+}
+
+.register-box p {
+  text-align: center;
+  color: #666;
+  margin-bottom: 25px;
+}
+
+/* About Section */
+
+.about {
+  background: #f8f9fa;
+  padding: 80px 0;
+}
+
+.about h2 {
+  color: #0d6efd;
+  .feature-card {
+    margin-top: 20px;
+  }
+  .about img {
+    max-width: 100%;
+    height: auto;
+  }
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.about p {
+  color: #555;
+  line-height: 1.8;
+}
+
+footer {
+  margin-top: 50px;
+}
+
+footer p {
+  margin: 0;
+}
+.feature-card {
+  margin-top: 20px;
+}
+.about {
+  padding: 80px 0;
+}
+
+.about-img {
+  width: 85%;
+}
