@@ -1,12 +1,19 @@
+
 <?php
 
 session_start();
+
+
+// Check Login
 
 if(!isset($_SESSION['email']))
 {
     header("Location: ../login.php");
     exit();
 }
+
+
+// Database Connection
 
 include("../database/connection.php");
 
@@ -17,9 +24,10 @@ $email = $_SESSION['email'];
 
 if(isset($_POST['update_profile']))
 {
-    $full_name = $_POST['full_name'];
-    $course = $_POST['course'];
-    $year = $_POST['year'];
+    $full_name = mysqli_real_escape_string($conn, $_POST['full_name']);
+    $course = mysqli_real_escape_string($conn, $_POST['course']);
+    $year = mysqli_real_escape_string($conn, $_POST['year']);
+
 
     $query = "UPDATE users
               SET full_name='$full_name',
@@ -27,9 +35,15 @@ if(isset($_POST['update_profile']))
                   year='$year'
               WHERE email='$email'";
 
-    mysqli_query($conn, $query);
 
-    echo "<script>alert('Profile Updated Successfully');</script>";
+    if(mysqli_query($conn, $query))
+    {
+        echo "<script>alert('Profile Updated Successfully');</script>";
+    }
+    else
+    {
+        echo "<script>alert('Profile Update Failed');</script>";
+    }
 }
 
 
@@ -41,14 +55,26 @@ $result = mysqli_query($conn, $query);
 
 $user = mysqli_fetch_assoc($result);
 
+
+// Check User Data
+
+if(!$user)
+{
+    echo "User data not found.";
+    exit();
+}
+
 ?>
 
+
 <!DOCTYPE html>
+
 <html>
 
 <head>
 
     <title>My Profile | SkillFolio</title>
+
 
     <style>
 
@@ -56,7 +82,9 @@ $user = mysqli_fetch_assoc($result);
         {
             background-color: #f5f7fb;
             font-family: Arial, sans-serif;
+            margin: 0;
         }
+
 
         .box
         {
@@ -68,6 +96,28 @@ $user = mysqli_fetch_assoc($result);
             box-shadow: 0 0 10px gray;
         }
 
+
+        h2
+        {
+            text-align: center;
+            color: #333;
+        }
+
+
+        hr
+        {
+            margin-bottom: 25px;
+        }
+
+
+        label
+        {
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+        }
+
+
         input,
         select
         {
@@ -76,7 +126,18 @@ $user = mysqli_fetch_assoc($result);
             margin-top: 5px;
             margin-bottom: 15px;
             box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
         }
+
+
+        input:focus,
+        select:focus
+        {
+            border-color: #0d6efd;
+            outline: none;
+        }
+
 
         button
         {
@@ -87,7 +148,15 @@ $user = mysqli_fetch_assoc($result);
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            font-size: 16px;
         }
+
+
+        button:hover
+        {
+            background-color: #0b5ed7;
+        }
+
 
         .back
         {
@@ -98,11 +167,20 @@ $user = mysqli_fetch_assoc($result);
             text-decoration: none;
         }
 
+
+        .back:hover
+        {
+            text-decoration: underline;
+        }
+
+
     </style>
 
 </head>
 
+
 <body>
+
 
 <div class="box">
 
@@ -110,55 +188,84 @@ $user = mysqli_fetch_assoc($result);
 
     <hr>
 
+
     <form method="POST">
+
+
+        <!-- Full Name -->
 
         <label>Full Name</label>
 
         <input
             type="text"
             name="full_name"
-            value="<?php echo $user['full_name']; ?>"
+            value="<?php echo htmlspecialchars($user['full_name']); ?>"
             required>
 
+
+        <!-- Email -->
 
         <label>Email</label>
 
         <input
             type="email"
-            value="<?php echo $user['email']; ?>"
+            value="<?php echo htmlspecialchars($user['email']); ?>"
             readonly>
 
+
+        <!-- Course -->
 
         <label>Course</label>
 
         <input
             type="text"
             name="course"
-            value="<?php echo $user['course']; ?>"
+            value="<?php echo htmlspecialchars($user['course']); ?>"
             required>
 
 
+        <!-- Year -->
+
         <label>Year</label>
 
-        <select name="year">
+        <select name="year" required>
 
-            <option
-                <?php if($user['year']=="First Year") echo "selected"; ?>>
+            <option value="First Year"
+                <?php
+                if($user['year'] == "First Year")
+                {
+                    echo "selected";
+                }
+                ?>>
                 First Year
             </option>
 
-            <option
-                <?php if($user['year']=="Second Year") echo "selected"; ?>>
+
+            <option value="Second Year"
+                <?php
+                if($user['year'] == "Second Year")
+                {
+                    echo "selected";
+                }
+                ?>>
                 Second Year
             </option>
 
-            <option
-                <?php if($user['year']=="Third Year") echo "selected"; ?>>
+
+            <option value="Third Year"
+                <?php
+                if($user['year'] == "Third Year")
+                {
+                    echo "selected";
+                }
+                ?>>
                 Third Year
             </option>
 
         </select>
 
+
+        <!-- Update Button -->
 
         <button
             type="submit"
@@ -168,8 +275,11 @@ $user = mysqli_fetch_assoc($result);
 
         </button>
 
+
     </form>
 
+
+    <!-- Back to Dashboard -->
 
     <a class="back" href="dashboard.php">
 
@@ -177,8 +287,11 @@ $user = mysqli_fetch_assoc($result);
 
     </a>
 
+
 </div>
+
 
 </body>
 
 </html>
+```
