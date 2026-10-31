@@ -1,3 +1,4 @@
+
 <?php
 
 session_start();
@@ -50,6 +51,9 @@ if(isset($_POST['login']))
     <!-- Custom CSS -->
     <link rel="stylesheet" href="assets/css/style.css">
 
+    <!-- Google Login Script -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
 </head>
 
 <body>
@@ -67,6 +71,8 @@ if(isset($_POST['login']))
                 <p class="text-center text-muted">
                     Login to your SkillFolio account
                 </p>
+
+                <!-- Normal Login Form -->
 
                 <form method="POST" action="">
 
@@ -119,6 +125,34 @@ if(isset($_POST['login']))
 
                 </form>
 
+                <!-- Google Login -->
+
+                <div class="text-center mt-3">
+
+                    <p class="text-muted">OR</p>
+
+                    <div id="g_id_onload"
+                         data-client_id="595703860451-3ilstjt5fusa4l8mcjukt71fuh1ugksv.apps.googleusercontent.com"
+                         data-callback="handleGoogleLogin">
+                    </div>
+
+                    <div class="d-flex justify-content-center">
+
+                        <div class="g_id_signin"
+                             data-type="standard"
+                             data-size="large"
+                             data-theme="outline"
+                             data-text="continue_with"
+                             data-shape="rectangular"
+                             data-logo_alignment="left">
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Register Link -->
+
                 <div class="text-center mt-3">
 
                     Don't have an account?
@@ -137,6 +171,8 @@ if(isset($_POST['login']))
 
 </div>
 
+<!-- Password Show Hide Script -->
+
 <script>
 
 document.addEventListener("DOMContentLoaded", function(){
@@ -151,12 +187,14 @@ document.addEventListener("DOMContentLoaded", function(){
         if(password.type === "password")
         {
             password.type = "text";
+
             icon.classList.remove("bi-eye");
             icon.classList.add("bi-eye-slash");
         }
         else
         {
             password.type = "password";
+
             icon.classList.remove("bi-eye-slash");
             icon.classList.add("bi-eye");
         }
@@ -164,6 +202,32 @@ document.addEventListener("DOMContentLoaded", function(){
     });
 
 });
+
+</script>
+
+<!-- Google Login Function -->
+
+<script>
+
+function handleGoogleLogin(response)
+{
+    var form = document.createElement("form");
+
+    form.method = "POST";
+    form.action = "google-login.php";
+
+    var input = document.createElement("input");
+
+    input.type = "hidden";
+    input.name = "credential";
+    input.value = response.credential;
+
+    form.appendChild(input);
+
+    document.body.appendChild(form);
+
+    form.submit();
+}
 
 </script>
 
