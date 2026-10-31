@@ -1,13 +1,16 @@
 <?php
 
-$host = "localhost";
-$user = "root";
-$password = "";
-$database = "skillfolio_db";
+$host = getenv("DB_HOST");
+$user = getenv("DB_USER");
+$password = getenv("DB_PASSWORD");
+$database = getenv("DB_NAME");
+$port = getenv("DB_PORT");
 
-$conn = mysqli_connect($host, $user, $password, $database);
+$conn = mysqli_init();
 
-if (!$conn) {
+mysqli_ssl_set($conn, NULL, NULL, NULL, NULL, NULL);
+
+if (!mysqli_real_connect($conn, $host, $user, $password, $database, $port, NULL, MYSQLI_CLIENT_SSL)) {
     die("Connection Failed");
 }
 
